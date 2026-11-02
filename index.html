@@ -1,0 +1,378 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Birthday!</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a0633, #50106e, #a11b76);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+/* Main Card */
+.card {
+    width: 100%;
+    max-width: 600px;
+    padding: 40px 25px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 0 40px rgba(255, 0, 170, 0.25);
+    position: relative;
+    z-index: 2;
+    animation: appear 1.2s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Heading */
+h1 {
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+    color: #ffdf70;
+    text-shadow: 0 0 15px #ff4da6;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff4da6; }
+    to { text-shadow: 0 0 30px #ffdf70, 0 0 50px #ff4da6; }
+}
+
+.name {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    color: #ff8acb;
+    margin: 15px 0;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    margin: 15px 0;
+    line-height: 1.7;
+}
+
+/* Birthday Cake */
+.cake {
+    font-size: 100px;
+    margin: 20px 0;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+/* Message */
+.message {
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 20px 0;
+    color: #ffeafa;
+}
+
+/* Button */
+button {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff4da6, #ff9a44);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 5px 20px rgba(255, 77, 166, 0.4);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px #ff4da6;
+}
+
+/* Balloons */
+.balloon {
+    position: fixed;
+    bottom: -150px;
+    font-size: 45px;
+    animation: floatUp 10s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.balloon:nth-child(1) { left: 5%; animation-delay: 0s; }
+.balloon:nth-child(2) { left: 85%; animation-delay: 3s; }
+.balloon:nth-child(3) { left: 25%; animation-delay: 6s; }
+.balloon:nth-child(4) { left: 70%; animation-delay: 1s; }
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-120vh) rotate(25deg); opacity: 0; }
+}
+
+/* Confetti Canvas */
+#confetti {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .card {
+        padding: 30px 18px;
+    }
+
+    .cake {
+        font-size: 80px;
+    }
+
+    .message {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 15px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- Floating Balloons -->
+<div class="balloon">🎈</div>
+<div class="balloon">🎈</div>
+<div class="balloon">🎈</div>
+<div class="balloon">🎈</div>
+
+<!-- Birthday Card -->
+<div class="card">
+
+    <h1>🎉 Happy Birthday! 🎉</h1>
+
+    <!-- Change the name here -->
+    <div class="name">Dear Special Person ❤️</div>
+
+    <div class="cake">🎂</div>
+
+    <div class="subtitle">
+        Wishing You a Day Full of Happiness!
+    </div>
+
+    <div class="message">
+        May your birthday bring endless smiles,
+        beautiful memories, and countless reasons
+        to celebrate.
+
+        <br><br>
+
+        May all your dreams come true and may
+        every new day bring you happiness,
+        success, and love.
+
+        <br><br>
+
+        Keep smiling, keep shining, and enjoy
+        every moment of your special day! 💖
+
+        <br><br>
+
+        <b>Lots of love and best wishes! 🥳</b>
+    </div>
+
+    <button onclick="celebrate()">
+        🎊 Celebrate!
+    </button>
+
+</div>
+
+<script>
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let animationId;
+
+function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+const colors = [
+    "#ff4da6",
+    "#ffdf70",
+    "#00e5ff",
+    "#7cff6b",
+    "#ffffff",
+    "#b56bff"
+];
+
+class Confetti {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+
+        this.size = Math.random() * 8 + 4;
+
+        this.color =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        this.speedX = Math.random() * 8 - 4;
+        this.speedY = Math.random() * 5 + 2;
+
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 8 - 4;
+
+        this.gravity = 0.06;
+        this.opacity = 1;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        this.speedY += this.gravity;
+
+        this.rotation += this.rotationSpeed;
+
+        this.opacity -= 0.003;
+    }
+
+    draw() {
+        ctx.save();
+
+        ctx.globalAlpha = Math.max(0, this.opacity);
+
+        ctx.translate(this.x, this.y);
+
+        ctx.rotate(this.rotation * Math.PI / 180);
+
+        ctx.fillStyle = this.color;
+
+        ctx.fillRect(
+            -this.size / 2,
+            -this.size / 2,
+            this.size,
+            this.size * 0.6
+        );
+
+        ctx.restore();
+    }
+}
+
+function createConfetti(x, y, amount = 100) {
+    for (let i = 0; i < amount; i++) {
+        particles.push(new Confetti(x, y));
+    }
+}
+
+function animateConfetti() {
+    ctx.clearRect(
+        0, 0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    particles.forEach((particle, index) => {
+        particle.update();
+        particle.draw();
+
+        if (particle.opacity <= 0 ||
+            particle.y > window.innerHeight + 50) {
+            particles.splice(index, 1);
+        }
+    });
+
+    animationId = requestAnimationFrame(animateConfetti);
+}
+
+// Start automatic confetti
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    createConfetti(
+        window.innerWidth / 2,
+        window.innerHeight / 3,
+        160
+    );
+
+    animateConfetti();
+
+    // Periodic confetti celebration
+    setInterval(() => {
+        createConfetti(
+            Math.random() * window.innerWidth,
+            -10,
+            12
+        );
+    }, 900);
+}
+
+// Celebrate button
+function celebrate() {
+    createConfetti(
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        250
+    );
+
+    // Extra bursts from both sides
+    createConfetti(0, window.innerHeight / 2, 100);
+    createConfetti(window.innerWidth, window.innerHeight / 2, 100);
+}
+
+</script>
+
+</body>
+</html>
+```
